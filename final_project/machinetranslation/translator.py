@@ -1,7 +1,6 @@
-import json
+import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,36 +8,43 @@ load_dotenv()
 apikey = os.environ['apikey']
 url = os.environ['url']
 
-# Add code to create an instance of the IBM Watson Language translator 
-authenticator = IAMAuthenticator('{apikey}')
+authenticator = IAMAuthenticator(apikey)
 language_translator = LanguageTranslatorV3(
     version='2018-05-01',
     authenticator=authenticator
 )
 
-language_translator.set_service_url('{url}')
+language_translator.set_service_url(url)
 
-""" Add function englishToFrench which takes in the englishText as a string argument
-    Use the instance of the Language Translator you created previously, 
-    to translate the text input in English to French and return the French text.
-"""
-def englishToFrench(englishText):
-    #write the code here
-    frenchText = language_translator.translate(
-    text=englishText,
-    model_id='en-fr').get_result()
-    frenchText = translation['translations'][0]['translation']
-    return frenchText
+def english_to_french(english_text):
+    """Translate English text to French.
+    Args:
+        str: The English text to translate.
+    Returns:
+        str: The translated French text."""
+    if not english_text:
+        return None
 
-""" Add function frenchToEnglish which takes in the frenchText as a string argument
-    Use the instance of the Language Translator you created previously, 
-    to translate the text input in French to English and return the English text.
-"""
+    translation = language_translator.translate(
+        text=english_text,
+        model_id='en-fr'
+    ).get_result()
+    french_text = translation['translations'][0]['translation']
+    return french_text
 
-def frenchToEnglish(frenchText):
-    #write the code here
-    englishText = language_translator.translate(
-    text=frenchText,
-    model_id='fr-en').get_result()
-    englishText = translation['translations'][0]['translation']
-    return englishText
+def french_to_english(french_text):
+    """Translate French text to English.
+    Args:
+        str: The French text to translate.
+    Returns:
+        str: The translated English text."""
+    if not french_text:
+        return None
+
+    translation = language_translator.translate(
+        text=french_text,
+        model_id='fr-en'
+    ).get_result()
+    english_text = translation['translations'][0]['translation']
+    return english_text
+    
