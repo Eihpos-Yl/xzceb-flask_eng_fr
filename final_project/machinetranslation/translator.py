@@ -19,17 +19,20 @@ language_translator = LanguageTranslatorV3(
 language_translator.set_service_url('{url}')
 
 """ Add function englishToFrench which takes in the englishText as a string argument
-    Use the instance of the Language Translator you created previously, to translate the text input in English to French and return the French text.
+    Use the instance of the Language Translator you created previously, 
+    to translate the text input in English to French and return the French text.
 """
 def englishToFrench(englishText):
     #write the code here
     frenchText = language_translator.translate(
     text=englishText,
     model_id='en-fr').get_result()
+    frenchText = translation['translations'][0]['translation']
     return frenchText
 
 """ Add function frenchToEnglish which takes in the frenchText as a string argument
-    Use the instance of the Language Translator you created previously, to translate the text input in French to English and return the English text.
+    Use the instance of the Language Translator you created previously, 
+    to translate the text input in French to English and return the English text.
 """
 
 def frenchToEnglish(frenchText):
@@ -37,4 +40,5 @@ def frenchToEnglish(frenchText):
     englishText = language_translator.translate(
     text=frenchText,
     model_id='fr-en').get_result()
+    englishText = translation['translations'][0]['translation']
     return englishText
